@@ -1,0 +1,31 @@
+{
+  "name": "media-converter-api",
+  "version": "0.0.0",
+  "description": "A NodeJS API to convert media files. Any popular video/audio format can be converted to any video/audio format through API. And can be downloaded easily",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon"
+  },
+  "keywords": [
+    "nodejs",
+    "ffmpeg",
+    "fluent-ffmpeg",
+    "media",
+    "converter",
+    "audio",
+    "video"
+  ],
+  "author": {
+    "name": "Anwarul Islam",
+    "email": "anwaarulislaam@gmail.com",
+    "url": "https://anwaar.me"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "ffmpeg": "^0.0.4",
+    "fluent-ffmpeg": "^2.1.2",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^8.3.2"
+  }
+}

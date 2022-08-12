@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Convert Meida Files</title>
+
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 5em;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Upload and Convert</h2>
+
+    <form action="/convert" method="post" enctype="multipart/form-data">
+      <input type="file" name="media" multiple="true" />
+
+      <label>
+        Format to:
+        <select name="formatTo">
+          <option value="mp3">MP3</option>
+          <option value="wav">WAV</option>
+        </select>
+      </label>
+
+      <button type="submit">Convert</button>
+    </form>
+  </body>
+</html>
