@@ -4,6 +4,7 @@
   "description": "A NodeJS API to convert media files. Any popular video/audio format can be converted to any video/audio format through API. And can be downloaded easily",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "dev": "nodemon"
   },
   "keywords": [
