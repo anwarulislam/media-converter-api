@@ -1,8 +1,10 @@
 const fs = require('fs')
 const ffmpeg = require('fluent-ffmpeg')
-ffmpeg.setFfmpegPath('./lib/ffmpeg-master-latest-win64-gpl/bin/ffmpeg.exe')
 
 const IS_DELETE_ORIGINAL_FILE = true
+const FFMPEG_BINARY_DESTINATION = './lib/ffmpeg-master-latest-win64-gpl/bin/ffmpeg.exe'
+
+ffmpeg.setFfmpegPath(FFMPEG_BINARY_DESTINATION)
 
 const convert = (req, res) => {
 
