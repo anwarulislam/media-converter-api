@@ -14,10 +14,13 @@ const convert = (req, res) => {
 
   const fileName = req.fileName + "." + formatTo;
 
+  const fullDomain = req.protocol + "://" + req.get("host");
+
   res.json({
     message: "Converting",
     status: "processing",
-    uploadId: fileName,
+    upload_id: fileName,
+    ping_url: `${fullDomain}/is-ready/${fileName}`,
   });
 
   ffmpeg({ source: req.fileDestination })

@@ -35,10 +35,10 @@ const download = async (req, res) => {
   const { base64Id } = req.params;
   // decode base64Id
   const uploadId = Buffer.from(base64Id, "base64").toString("ascii");
-  const relativePath = `converted_files/${uploadId}`;
+  const relativePath = `./converted_files/${uploadId}`;
 
   // stream
-  const file = fs.createReadStream(path.join(__dirname, relativePath));
+  const file = fs.createReadStream(relativePath);
   res.setHeader("Content-disposition", `attachment; filename=${uploadId}`);
   file.pipe(res);
 };
