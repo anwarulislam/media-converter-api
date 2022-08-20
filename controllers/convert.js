@@ -12,6 +12,14 @@ if (process.platform === "win32") {
 const convert = (req, res) => {
   const { formatTo } = req.body;
 
+  const fileName = req.fileName + "." + formatTo;
+
+  res.json({
+    message: "Converting",
+    status: "processing",
+    uploadId: fileName,
+  });
+
   ffmpeg({ source: req.fileDestination })
     .toFormat(formatTo)
     .on("end", () => {
@@ -29,9 +37,7 @@ const convert = (req, res) => {
       console.log(error);
       console.log("some error occured");
     })
-    .saveToFile("./converted_files/" + req.fileName + "." + formatTo);
-
-  res.send("converting");
+    .saveToFile("./converted_files/" + fileName);
 };
 
 module.exports = {
