@@ -16,12 +16,13 @@ const isReady = async (req, res) => {
     console.log(fullDomain);
     const encodedId = Buffer.from(uploadId).toString("base64");
     res.json({
-      message: "ready",
+      message: "Download",
+      status: "ready",
       download_url: `${fullDomain}/download/${encodedId}`,
     });
   } else {
     res.json({
-      message: "not ready",
+      message: "No file exists",
       status: "processing",
     });
   }
