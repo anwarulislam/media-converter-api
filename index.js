@@ -1,4 +1,4 @@
-const firebaseAdmin = require("firebase-admin");
+// const firebaseAdmin = require("firebase-admin");
 const cors = require('cors')
 const express = require('express')
 const app = express()
@@ -7,7 +7,7 @@ app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-/* CONFIG FIREBASE ADMIN */
+/* CONFIG FIREBASE ADMIN *
 const serviceAccount = require('./secrets/google-service-account.json');
 firebaseAdmin.initializeApp({
     credential: firebaseAdmin.credential.cert(serviceAccount),
