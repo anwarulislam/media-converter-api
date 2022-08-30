@@ -18,6 +18,9 @@ const upload = multer({ storage, limits }).single("media");
 
 
 const handleUpload = (req, res, next) => {
+
+    console.log("handleUpload");
+
     upload(req, res, (err) => {
         if (err) {
             console.log(err);

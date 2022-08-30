@@ -3,10 +3,17 @@ const cors = require("cors");
 const express = require("express");
 const app = express();
 const setup = require("./setup");
+const cookieParser = require("cookie-parser");
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 /* CONFIG FIREBASE ADMIN *
 const serviceAccount = require('./secrets/google-service-account.json');
