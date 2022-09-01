@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { v4: uuid } = require("uuid");
-const child_process = require("child_process");
+const archiver = require("archiver");
 // const firebaseAdmin = require("firebase-admin");
 
 // const db = firebaseAdmin.firestore();
@@ -49,26 +49,37 @@ const download = async (req, res) => {
     res.setHeader("Content-disposition", `attachment; filename=${firstFile}`);
     file.pipe(res);
   } else {
-    // childrocess
     const zipFileName = `${uploadId}.zip`;
     const zipFilePath = path.join(filesPath, zipFileName);
-    const zipCommand = `zip -r ${zipFilePath} ${filesPath}`;
-    child_process.exec(zipCommand, (err, stdout, stderr) => {
-      if (err) {
-        console.log(err);
-        res.json({
-          status: "error",
-          message: "Error while zipping",
-        });
-      } else {
-        const file = fs.createReadStream(zipFilePath);
-        res.setHeader(
-          "Content-disposition",
-          `attachment; filename=${zipFileName}`
-        );
-        file.pipe(res);
-      }
+
+    const archive = archiver("zip");
+
+    // append files from a sub-directory, putting its contents at the root of archive
+    archive.directory(filesPath, false);
+
+    archive.on("error", function (err) {
+      res.json({
+        status: "error",
+        message: "Error while zipping",
+        error: err,
+      });
     });
+
+    const output = fs.createWriteStream(zipFilePath);
+    output.on("close", function () {
+      console.log(archive.pointer() + " total bytes");
+
+      const file = fs.createReadStream(zipFilePath);
+      res.setHeader(
+        "Content-disposition",
+        `attachment; filename=${zipFileName}`
+      );
+      file.pipe(res);
+    });
+
+    archive.pipe(output);
+
+    archive.finalize();
   }
 };
 
