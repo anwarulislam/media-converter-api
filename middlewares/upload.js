@@ -1,9 +1,10 @@
+const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
 const { v4: uuid } = require("uuid");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./temp");
+    cb(null, `./temp/${req.params.uploadId}`);
   },
   filename: function (req, file, cb) {
     const randID = uuid();
@@ -17,6 +18,13 @@ const limits = 1000000 * 100;
 const upload = multer({ storage, limits }).array("media", 3);
 
 const handleUpload = (req, res, next) => {
+  const { uploadId } = req.params;
+
+  // if no directory exists with uploadId in temp, create one
+  if (!fs.existsSync(`./temp/${uploadId}`)) {
+    fs.mkdirSync(`./temp/${uploadId}`);
+  }
+
   upload(req, res, (err) => {
     if (err) {
       console.log(err);

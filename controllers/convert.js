@@ -10,6 +10,7 @@ if (process.platform === "win32") {
 }
 
 const convert = (req, res) => {
+  const { uploadId } = req.params;
   const fullDomain = req.protocol + "://" + req.get("host");
 
   // set cookie for file count
@@ -22,19 +23,25 @@ const convert = (req, res) => {
   res.json({
     message: `Converting ${req.files.length} files`,
     status: "processing",
-    upload_id: fileName,
-    ping_url: `${fullDomain}/is-ready/${fileName}`,
+    upload_id: uploadId,
+    ping_url: `${fullDomain}/is-ready/${uploadId}`,
   });
 
+  // if no directory exists with uploadId in temp, create one
+  if (!fs.existsSync(`./converted_files/${uploadId}`)) {
+    fs.mkdirSync(`./converted_files/${uploadId}`);
+  }
+
   (req.files || []).forEach((file) => {
-    const fileName = req.name + "." + file.formatTo;
-    ffmpeg({ source: req.fileDestination })
-      .toFormat(formatTo)
+    console.log(file);
+    const fileFinalDestination = `./converted_files/${uploadId}/${file.name}.${file.formatTo}`;
+    ffmpeg({ source: file.name_ext })
+      .toFormat(file.formatTo)
       .on("end", () => {
         console.log("processing done");
         // delete file from temp folder
         if (IS_DELETE_ORIGINAL_FILE) {
-          fs.unlink(req.fileDestination, (err) => {
+          fs.unlink(file.name_ext, (err) => {
             if (!err) {
               console.log("file deleted");
             }
@@ -45,7 +52,7 @@ const convert = (req, res) => {
         console.log(error);
         console.log("some error occured");
       })
-      .saveToFile("./converted_files/" + fileName);
+      .saveToFile(fileFinalDestination);
   });
 };
 
