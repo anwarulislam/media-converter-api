@@ -4,6 +4,7 @@ const path = require("path");
 const { convert } = require("../controllers/convert");
 const { isReady, download } = require("../controllers/export");
 const { create } = require("../controllers/import");
+const { checkLimit } = require("../middlewares/checkLimit");
 const { handleUpload } = require("../middlewares/upload");
 
 Router.get("/is-ready/:uploadId", isReady);
@@ -19,7 +20,14 @@ Router.get("/convert", (req, res) => {
   res.redirect("/upload");
 });
 
-Router.post("/convert", handleUpload, convert);
+Router.post("/check-server", checkLimit, (req, res) => {
+  // check if server is ready to accept upload
+  res.json({
+    message: "Server is ready",
+    status: "ok",
+  });
+});
+Router.post("/convert", checkLimit, handleUpload, convert);
 
 Router.get("/download/:base64Id", download);
 

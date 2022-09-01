@@ -18,13 +18,10 @@ const convert = (req, res) => {
 
   // set cookie for file count
   const fileCount = req.cookies["MAX_FILE_COUNT"];
-
-  console.log("set cookie");
   res.cookie("MAX_FILE_COUNT", 1 + parseInt(fileCount || 0), {
-    // preserve cookie for 1 day
-    maxAge: 1000 * 60 * 60 * 24,
-    // httpOnly: false,
+    maxAge: 1000 * 60 * 60 * 24, // preserve for 1 day
   });
+  // set cookie for file count
 
   res.json({
     message: "Converting",
