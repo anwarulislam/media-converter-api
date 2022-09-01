@@ -27,7 +27,7 @@ Router.post("/check-server", checkLimit, (req, res) => {
     status: "ok",
   });
 });
-Router.post("/convert", checkLimit, handleUpload, convert);
+Router.post("/convert/:uploadId", checkLimit, handleUpload, convert);
 
 Router.get("/download/:base64Id", download);
 

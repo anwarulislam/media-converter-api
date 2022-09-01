@@ -10,10 +10,6 @@ if (process.platform === "win32") {
 }
 
 const convert = (req, res) => {
-  const { formatTo } = req.body;
-
-  const fileName = req.fileName + "." + formatTo;
-
   const fullDomain = req.protocol + "://" + req.get("host");
 
   // set cookie for file count
@@ -24,30 +20,33 @@ const convert = (req, res) => {
   // set cookie for file count
 
   res.json({
-    message: "Converting",
+    message: `Converting ${req.files.length} files`,
     status: "processing",
     upload_id: fileName,
     ping_url: `${fullDomain}/is-ready/${fileName}`,
   });
 
-  ffmpeg({ source: req.fileDestination })
-    .toFormat(formatTo)
-    .on("end", () => {
-      console.log("processing done");
-      // delete file from temp folder
-      if (IS_DELETE_ORIGINAL_FILE) {
-        fs.unlink(req.fileDestination, (err) => {
-          if (!err) {
-            console.log("file deleted");
-          }
-        });
-      }
-    })
-    .on("error", (error) => {
-      console.log(error);
-      console.log("some error occured");
-    })
-    .saveToFile("./converted_files/" + fileName);
+  (req.files || []).forEach((file) => {
+    const fileName = req.name + "." + file.formatTo;
+    ffmpeg({ source: req.fileDestination })
+      .toFormat(formatTo)
+      .on("end", () => {
+        console.log("processing done");
+        // delete file from temp folder
+        if (IS_DELETE_ORIGINAL_FILE) {
+          fs.unlink(req.fileDestination, (err) => {
+            if (!err) {
+              console.log("file deleted");
+            }
+          });
+        }
+      })
+      .on("error", (error) => {
+        console.log(error);
+        console.log("some error occured");
+      })
+      .saveToFile("./converted_files/" + fileName);
+  });
 };
 
 module.exports = {
