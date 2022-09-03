@@ -50,7 +50,7 @@ const download = async (req, res) => {
     file.pipe(res);
   } else {
     const zipFileName = `${uploadId}.zip`;
-    const zipFilePath = path.join(filesPath, zipFileName);
+    const zipFilePath = path.join("./converted_files", zipFileName);
 
     const archive = archiver("zip");
 
