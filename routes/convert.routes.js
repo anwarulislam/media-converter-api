@@ -1,19 +1,34 @@
-const Router = require('express').Router()
-const path = require('path')
-const { convert } = require('../controllers/convert')
-const { handleUpload } = require('../middlewares/upload')
+const express = require("express");
+const Router = express.Router();
+const path = require("path");
+const { convert } = require("../controllers/convert");
+const { isReady, download } = require("../controllers/export");
+const { create } = require("../controllers/import");
+const { checkLimit } = require("../middlewares/checkLimit");
+const { handleUpload } = require("../middlewares/upload");
 
-Router.get('/upload', (req, res) => {
-    // server index.html file from views/index.html
-    res.sendFile(path.join(__dirname, '../views/index.html'))
-})
+Router.get("/is-ready/:uploadId", isReady);
+Router.post("/upload", checkLimit, create);
 
+Router.get("/upload", (req, res) => {
+  // server index.html file from views/index.html
+  res.sendFile(path.join(__dirname, "../views/index.html"));
+});
 
-Router.get('/convert', (req, res) => {
-    // redirect to upload page
-    res.redirect('/upload')
-})
-Router.post('/convert', handleUpload, convert)
+Router.get("/convert", (req, res) => {
+  // redirect to upload page
+  res.redirect("/upload");
+});
 
+Router.post("/check-server", checkLimit, (req, res) => {
+  // check if server is ready to accept upload
+  res.json({
+    message: "Server is ready",
+    status: "ok",
+  });
+});
+Router.post("/convert/:uploadId", checkLimit, handleUpload, convert);
 
-module.exports = Router
+Router.get("/download/:base64Id", download);
+
+module.exports = Router;
