@@ -32,28 +32,37 @@ const convert = (req, res) => {
     fs.mkdirSync(`./converted_files/${uploadId}`);
   }
 
-  (req.files || []).forEach((file) => {
-    console.log(file);
-    const fileFinalDestination = `./converted_files/${uploadId}/${file.name}.${file.formatTo}`;
-    ffmpeg({ source: file.name_ext })
-      .toFormat(file.formatTo)
-      .on("end", () => {
-        console.log("processing done");
-        // delete file from temp folder
-        if (IS_DELETE_ORIGINAL_FILE) {
-          fs.unlink(file.name_ext, (err) => {
-            if (!err) {
-              console.log("file deleted");
-            }
-          });
-        }
-      })
-      .on("error", (error) => {
-        console.log(error);
-        console.log("some error occured");
-      })
-      .saveToFile(fileFinalDestination);
-  });
+  if (req.files?.length) {
+    convertTheFile(req.files, 0, uploadId);
+  }
+  // (req.files || []).forEach((file) => {});
+};
+
+const convertTheFile = (files, index, uploadId) => {
+  const file = files[index];
+  const fileFinalDestination = `./converted_files/${uploadId}/${file.name}.${file.formatTo}`;
+  ffmpeg({ source: file.name_ext })
+    .toFormat(file.formatTo)
+    .on("end", () => {
+      console.log("processing done");
+      // delete file from temp folder
+      if (IS_DELETE_ORIGINAL_FILE) {
+        fs.unlink(file.name_ext, (err) => {
+          if (!err) {
+            console.log("file deleted");
+          }
+        });
+      }
+      // if there are more files to convert, convert them
+      if (index + 1 < files.length) {
+        convertTheFile(files, index + 1, uploadId);
+      }
+    })
+    .on("error", (error) => {
+      console.log(error);
+      console.log("some error occured");
+    })
+    .saveToFile(fileFinalDestination);
 };
 
 module.exports = {
