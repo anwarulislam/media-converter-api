@@ -8,7 +8,7 @@ const { checkLimit } = require("../middlewares/checkLimit");
 const { handleUpload } = require("../middlewares/upload");
 
 Router.get("/is-ready/:uploadId", isReady);
-Router.post("/upload", create);
+Router.post("/upload", checkLimit, create);
 
 Router.get("/upload", (req, res) => {
   // server index.html file from views/index.html
