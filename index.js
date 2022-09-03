@@ -1,4 +1,5 @@
 // const firebaseAdmin = require("firebase-admin");
+const path = require("path");
 const cors = require("cors");
 const express = require("express");
 const app = express();
@@ -15,6 +16,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+// public folder
+app.use("/assets", express.static("client/dist/assets"));
+
 /* CONFIG FIREBASE ADMIN *
 const serviceAccount = require('./secrets/google-service-account.json');
 firebaseAdmin.initializeApp({
@@ -29,7 +33,9 @@ setup();
 const convertRoutes = require("./routes/convert.routes");
 
 app.use(convertRoutes);
-app.get("", (req, res) => res.json({ message: "App is running" }));
+app.get("", (req, res) => {
+  res.sendFile(path.join(__dirname, "/client/dist/index.html"));
+});
 /* CONFIG ROUTES */
 
 /* LISTEN TO PORT */
