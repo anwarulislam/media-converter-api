@@ -9,10 +9,14 @@ const archiver = require("archiver");
 
 const isReady = async (req, res) => {
   const { uploadId } = req.params;
-  console.log(uploadId);
+  const { nof } = req.body;
+  console.log(uploadId, nof);
   const filesPath = `converted_files/${uploadId}`;
 
-  if (fs.existsSync(filesPath)) {
+  if (
+    fs.existsSync(filesPath) &&
+    fs.readdirSync(filesPath).length === Number(nof)
+  ) {
     const fullDomain = req.protocol + "://" + req.get("host");
     const encodedId = Buffer.from(uploadId).toString("base64");
     res.json({
