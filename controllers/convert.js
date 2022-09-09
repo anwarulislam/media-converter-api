@@ -9,6 +9,8 @@ if (process.platform === "win32") {
   ffmpeg.setFfmpegPath(FFMPEG_BINARY_DESTINATION);
 }
 
+const timeOuts = [];
+
 const convert = (req, res) => {
   const { uploadId } = req.params;
   const fullDomain = req.protocol + "://" + req.get("host");
@@ -57,6 +59,18 @@ const convertTheFile = (files, index, uploadId) => {
       if (index + 1 < files.length) {
         convertTheFile(files, index + 1, uploadId);
       }
+
+      // remove the file after 2 hours
+      const timer = setTimeout(() => {
+        fs.unlink(fileFinalDestination, (err) => {
+          if (!err) {
+            console.log("file deleted after conversion");
+          }
+        });
+      }, 3600000);
+      // 2 hours in milliseconds equal to 7200000
+      // 1 hour in milliseconds equal to 3600000
+      timeOuts.push(timer);
     })
     .on("error", (error) => {
       console.log(error);

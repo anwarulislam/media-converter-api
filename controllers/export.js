@@ -52,7 +52,7 @@ const download = async (req, res) => {
     const file = fs.createReadStream(filePath);
     res.setHeader("Content-disposition", `attachment; filename=${firstFile}`);
     file.pipe(res);
-  } else {
+  } else if (files.length > 1) {
     const zipFileName = `${uploadId}.zip`;
     const zipFilePath = path.join("./converted_files", zipFileName);
 
@@ -84,6 +84,11 @@ const download = async (req, res) => {
     archive.pipe(output);
 
     archive.finalize();
+  } else {
+    res.json({
+      status: "error",
+      message: "No file exists",
+    });
   }
 };
 
