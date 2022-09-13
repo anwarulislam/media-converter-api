@@ -61,16 +61,16 @@ const convertTheFile = (files, index, uploadId) => {
       }
 
       // remove the file after 2 hours
-      const timer = setTimeout(() => {
-        fs.unlink(fileFinalDestination, (err) => {
-          if (!err) {
-            console.log("file deleted after conversion");
-          }
-        });
-      }, 3600000);
+      // const timer = setTimeout(() => {
+      //   fs.unlink(fileFinalDestination, (err) => {
+      //     if (!err) {
+      //       console.log("file deleted after conversion");
+      //     }
+      //   });
+      // }, 3600000);
       // 2 hours in milliseconds equal to 7200000
       // 1 hour in milliseconds equal to 3600000
-      timeOuts.push(timer);
+      // timeOuts.push(timer);
     })
     .on("error", (error) => {
       console.log(error);
