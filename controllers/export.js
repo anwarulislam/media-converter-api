@@ -17,7 +17,7 @@ const isReady = async (req, res) => {
     fs.existsSync(filesPath) &&
     fs.readdirSync(filesPath).length === Number(nof)
   ) {
-    const fullDomain = req.protocol + "://" + req.get("host");
+    const fullDomain = 'https' + "://" + req.get("host");
     const encodedId = Buffer.from(uploadId).toString("base64");
     res.json({
       message: "Download",
