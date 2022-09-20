@@ -18,23 +18,19 @@
         flex-direction: column;
         padding: 5em;
       }
+
+      pre code {
+        background-color: #eee;
+        border: 1px solid #999;
+        display: block;
+        padding: 20px;
+      }
     </style>
   </head>
   <body>
-    <h2>Upload and Convert</h2>
+    <h2>Copy this and embed</h2>
 
-    <form action="/convert" method="post" enctype="multipart/form-data">
-      <input type="file" name="media" multiple="true" />
-
-      <label>
-        Format to:
-        <select name="formatTo">
-          <option value="mp3">MP3</option>
-          <option value="wav">WAV</option>
-        </select>
-      </label>
-
-      <button type="submit">Convert</button>
-    </form>
+    <script src="https://gist.github.com/anwarulislam/d3e09d76ecaaf78512cc5c866d7084ad.js"></script>
+    
   </body>
 </html>

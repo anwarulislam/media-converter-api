@@ -31,8 +31,10 @@ setup();
 
 /* CONFIG ROUTES */
 const convertRoutes = require("./routes/convert.routes");
+const appRoutes = require("./routes/app.routes");
 
 app.use(convertRoutes);
+app.use(appRoutes);
 app.get("", (req, res) => {
   res.sendFile(path.join(__dirname, "/client/dist/index.html"));
 });

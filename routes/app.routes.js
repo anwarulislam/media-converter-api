@@ -14,4 +14,8 @@ Router.post("/settings", (req, res) => {
   });
 });
 
+Router.get("/embed", (req, res) => {
+  res.sendFile(path.join(__dirname, "../views/embed.html"));
+});
+
 module.exports = Router;
