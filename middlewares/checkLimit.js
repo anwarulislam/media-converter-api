@@ -3,11 +3,12 @@ const MAX_FILE_COUNT = 3;
 
 const checkLimit = (req, res, next) => {
   // get MAX_FILE_COUNT from cookies
-  const fileCount = req.cookies["MAX_FILE_COUNT"];
+  const fileCountInCookie = req.cookies["MAX_FILE_COUNT"] || 0;
 
-  console.log("checkLimit", fileCount);
+  let totalFiles = Number(req.body.totalFiles || 0) + Number(fileCountInCookie);
+  totalFiles = totalFiles === NaN ? 0 : totalFiles;
 
-  if ((fileCount || 0) >= MAX_FILE_COUNT) {
+  if (totalFiles >= MAX_FILE_COUNT) {
     return res.status(400).json({
       message: "You have reached the limit of files",
     });

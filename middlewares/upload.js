@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
   },
 });
 // Here, fileSize is in bytes. (1000000 bytes = 1MB)
-const limits = 1000000 * 100;
+const limits = 1000000 * 1500;
 const upload = multer({ storage, limits }).array("media", 3);
 
 const handleUpload = (req, res, next) => {
