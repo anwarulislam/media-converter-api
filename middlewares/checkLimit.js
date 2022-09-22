@@ -14,7 +14,7 @@ const checkLimit = (req, res, next) => {
     });
   }
 
-  req["converted_length"] = fileCount;
+  req["converted_length"] = totalFiles;
 
   next();
 };
