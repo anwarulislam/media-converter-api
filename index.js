@@ -18,6 +18,7 @@ app.use(cookieParser());
 
 // public folder
 app.use("/assets", express.static("client/dist/assets"));
+app.use("/public", express.static("public"));
 
 /* CONFIG FIREBASE ADMIN *
 const serviceAccount = require('./secrets/google-service-account.json');

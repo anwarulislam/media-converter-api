@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Convert Meida Files</title>
+
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        padding: 5em;
+      }
+
+      main {
+        max-width: 600px;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <form action="/settings" method="post" enctype="multipart/form-data">
+        <label for="file">Select promo image to upload</label>
+        <input type="file" name="image" id="file" />
+
+        <input type="url" name="link" id="url" />
+
+        <button type="submit">Save</button>
+      </form>
+
+      <div class="padding: 50px; margin-top: 100px;" id="preview">
+        <h3>current data</h3>
+      </div>
+    </main>
+
+    <script>
+      // fetch settings.json from the same domain
+      fetch("/public/settings.json")
+        .then((response) => response.json())
+        .then((data) => {
+          // do something with the data
+          console.log(data);
+
+          // data.promoImage is an image
+          // data.link is a link
+
+          // create an image element and set the src to the image
+
+          const img = document.createElement("img");
+          img.src = data.promoImage;
+          img.style.width = "100%";
+          img.style.height = "auto";
+
+          // create an anchor element and set the href to the link
+
+          const a = document.createElement("a");
+          a.href = data.link;
+
+          // append p with the link as text inside the anchor
+          const p = document.createElement("p");
+          p.textContent = data.link;
+          a.appendChild(p);
+
+          // show the image and the link in the preview div
+
+          const preview = document.getElementById("preview");
+          preview.appendChild(a);
+          a.appendChild(img);
+
+          document.getElementById("url").value = data.link;
+        });
+    </script>
+  </body>
+</html>
