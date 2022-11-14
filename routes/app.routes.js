@@ -13,11 +13,32 @@ Router.post("/settings-audio", (req, res) => {
       return res.status(400).send("Something went wrong!");
     }
 
-    // rename the file to Date.now with extension
+    const jsonFile = "settings-audio.json";
+    let newFilename = "";
 
     const { file } = req;
 
-    saveFile(file, "settings-audio.json");
+    if (file) {
+      const { filename, mimetype } = file;
+      const extension = mimetype.split("/")[1];
+      newFilename = `${Date.now()}.${extension}`;
+      fs.renameSync(
+        path.join(__dirname, `../public/${filename}`),
+        path.join(__dirname, `../public/${newFilename}`)
+      );
+    }
+
+    const settings = require("../public/" + jsonFile);
+
+    if (file) {
+      settings["promoImage"] = "/public/" + newFilename;
+    }
+
+    settings["link"] = req.body.link;
+    fs.writeFileSync(
+      path.join(__dirname, "../public/" + jsonFile),
+      JSON.stringify(settings)
+    );
 
     res.redirect("/settings-audio");
   });
@@ -30,38 +51,36 @@ Router.post("/settings-rc", (req, res) => {
       return res.status(400).send("Something went wrong!");
     }
 
-    // rename the file to Date.now with extension
+    const jsonFile = "settings-rc.json";
+    let newFilename = "";
 
     const { file } = req;
 
-    saveFile(file, "settings-rc.json");
+    if (file) {
+      const { filename, mimetype } = file;
+      const extension = mimetype.split("/")[1];
+      newFilename = `${Date.now()}.${extension}`;
+      fs.renameSync(
+        path.join(__dirname, `../public/${filename}`),
+        path.join(__dirname, `../public/${newFilename}`)
+      );
+    }
+
+    const settings = require("../public/" + jsonFile);
+
+    if (file) {
+      settings["promoImage"] = "/public/" + newFilename;
+    }
+
+    settings["link"] = req.body.link;
+    fs.writeFileSync(
+      path.join(__dirname, "../public/" + jsonFile),
+      JSON.stringify(settings)
+    );
 
     res.redirect("/settings-rc");
   });
 });
-
-const saveFile = (file, jsonFile) => {
-  if (file) {
-    const { filename, mimetype } = file;
-    const extension = mimetype.split("/")[1];
-    const newFilename = `${Date.now()}.${extension}`;
-
-    fs.renameSync(
-      path.join(__dirname, `../public/${filename}`),
-      path.join(__dirname, `../public/${newFilename}`)
-    );
-  }
-
-  const settings = require("../public/" + jsonFile);
-  if (file) {
-    settings["promoImage"] = "/public/" + newFilename;
-  }
-  settings["link"] = req.body.link;
-  fs.writeFileSync(
-    path.join(__dirname, "../public/" + jsonFile),
-    JSON.stringify(settings)
-  );
-};
 
 Router.get("/settings-audio", (req, res) => {
   res.sendFile(path.join(__dirname, "../views/settings-audio.html"));
