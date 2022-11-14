@@ -16,27 +16,10 @@ Router.post("/settings-audio", (req, res) => {
     // rename the file to Date.now with extension
 
     const { file } = req;
-    const { filename, mimetype } = file;
-    const extension = mimetype.split("/")[1];
-    const newFilename = `${Date.now()}.${extension}`;
 
-    fs.renameSync(
-      path.join(__dirname, `../public/${filename}`),
-      path.join(__dirname, `../public/${newFilename}`)
-    );
+    saveFile(file, "settings-audio.json");
 
-    // change /public/settings.json
-
-    const settings = require("../public/settings-audio.json");
-    settings["promoImage"] = "/public/" + newFilename;
-    settings["link"] = req.body.link;
-    fs.writeFileSync(
-      path.join(__dirname, "../public/settings-audio.json"),
-      JSON.stringify(settings)
-    );
-
-    // redirect to url /settings
-    res.redirect("/settings");
+    res.redirect("/settings-audio");
   });
 });
 
@@ -50,6 +33,15 @@ Router.post("/settings-rc", (req, res) => {
     // rename the file to Date.now with extension
 
     const { file } = req;
+
+    saveFile(file, "settings-rc.json");
+
+    res.redirect("/settings-rc");
+  });
+});
+
+const saveFile = (file, jsonFile) => {
+  if (file) {
     const { filename, mimetype } = file;
     const extension = mimetype.split("/")[1];
     const newFilename = `${Date.now()}.${extension}`;
@@ -58,21 +50,18 @@ Router.post("/settings-rc", (req, res) => {
       path.join(__dirname, `../public/${filename}`),
       path.join(__dirname, `../public/${newFilename}`)
     );
+  }
 
-    // change /public/settings.json
-
-    const settings = require("../public/settings-rc.json");
+  const settings = require("../public/" + jsonFile);
+  if (file) {
     settings["promoImage"] = "/public/" + newFilename;
-    settings["link"] = req.body.link;
-    fs.writeFileSync(
-      path.join(__dirname, "../public/settings-rc.json"),
-      JSON.stringify(settings)
-    );
-
-    // redirect to url /settings
-    res.redirect("/settings-audio");
-  });
-});
+  }
+  settings["link"] = req.body.link;
+  fs.writeFileSync(
+    path.join(__dirname, "../public/" + jsonFile),
+    JSON.stringify(settings)
+  );
+};
 
 Router.get("/settings-audio", (req, res) => {
   res.sendFile(path.join(__dirname, "../views/settings-audio.html"));
