@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Convert Meida Files</title>
+    <title>Screen Recorder</title>
 
     <style>
       html {
@@ -23,7 +23,7 @@
   </head>
   <body>
     <main>
-      <h1>Convert Media Files</h1>
+      <h1>Screen Recorder Settings</h1>
 
       <form action="/settings" method="post" enctype="multipart/form-data">
         <label for="file">Select promo image to upload</label>
@@ -41,7 +41,7 @@
 
     <script>
       // fetch settings.json from the same domain
-      fetch("/public/settings.json")
+      fetch("/public/settings-rc.json")
         .then((response) => response.json())
         .then((data) => {
           // do something with the data
