@@ -25,7 +25,11 @@
     <main>
       <h1>Convert Media Files</h1>
 
-      <form action="/settings" method="post" enctype="multipart/form-data">
+      <form
+        action="/settings-audio"
+        method="post"
+        enctype="multipart/form-data"
+      >
         <label for="file">Select promo image to upload</label>
         <input type="file" name="image" id="file" />
 
@@ -41,7 +45,7 @@
 
     <script>
       // fetch settings.json from the same domain
-      fetch("/public/settings.json")
+      fetch("/public/settings-audio.json")
         .then((response) => response.json())
         .then((data) => {
           // do something with the data

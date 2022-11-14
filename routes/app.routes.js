@@ -6,7 +6,7 @@ const path = require("path");
 const multer = require("multer");
 const upload = multer({ dest: "public/" }).single("image");
 
-Router.post("/settings", (req, res) => {
+Router.post("/settings-audio", (req, res) => {
   upload(req, res, (err) => {
     if (err) {
       console.log(err);
@@ -70,12 +70,12 @@ Router.post("/settings-rc", (req, res) => {
     );
 
     // redirect to url /settings
-    res.redirect("/settings");
+    res.redirect("/settings-audio");
   });
 });
 
-Router.get("/settings", (req, res) => {
-  res.sendFile(path.join(__dirname, "../views/settings.html"));
+Router.get("/settings-audio", (req, res) => {
+  res.sendFile(path.join(__dirname, "../views/settings-audio.html"));
 });
 Router.get("/settings-rc", (req, res) => {
   res.sendFile(path.join(__dirname, "../views/settings-rc.html"));
