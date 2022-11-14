@@ -27,11 +27,11 @@ Router.post("/settings-audio", (req, res) => {
 
     // change /public/settings.json
 
-    const settings = require("../public/settings.json");
+    const settings = require("../public/settings-audio.json");
     settings["promoImage"] = "/public/" + newFilename;
     settings["link"] = req.body.link;
     fs.writeFileSync(
-      path.join(__dirname, "../public/settings.json"),
+      path.join(__dirname, "../public/settings-audio.json"),
       JSON.stringify(settings)
     );
 
@@ -61,11 +61,11 @@ Router.post("/settings-rc", (req, res) => {
 
     // change /public/settings.json
 
-    const settings = require("../public/settings.json");
+    const settings = require("../public/settings-rc.json");
     settings["promoImage"] = "/public/" + newFilename;
     settings["link"] = req.body.link;
     fs.writeFileSync(
-      path.join(__dirname, "../public/settings.json"),
+      path.join(__dirname, "../public/settings-rc.json"),
       JSON.stringify(settings)
     );
 
