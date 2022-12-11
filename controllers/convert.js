@@ -19,6 +19,9 @@ const convert = (req, res) => {
   // set cookie for file count
   const fileCount = req.cookies["MAX_FILE_COUNT"];
   res.cookie("MAX_FILE_COUNT", req.files.length + parseInt(fileCount || 0), {
+    domain: req.get("host"),
+    sameSite: "none",
+    secure: true,
     maxAge: 1000 * 60 * 60 * 24, // preserve for 1 day
   });
   // set cookie for file count
