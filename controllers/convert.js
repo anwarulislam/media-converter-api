@@ -13,7 +13,7 @@ const timeOuts = [];
 
 const convert = (req, res) => {
   const { uploadId } = req.params;
-  const fullDomain = "https" + "://" + req.get("host");
+  const fullDomain = req.protocol + "://" + req.get("host");
 
   // set cookie for file count
   const fileCount = req.cookies["MAX_FILE_COUNT"];
