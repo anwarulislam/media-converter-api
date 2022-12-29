@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Convert Meida Files Settings</title>
+    <title>Background Remover Settings</title>
 
     <style>
       html {
@@ -23,13 +23,9 @@
   </head>
   <body>
     <main>
-      <h1>Convert Media Files</h1>
+      <h1>Background Remover Settings</h1>
 
-      <form
-        action="/settings-audio"
-        method="post"
-        enctype="multipart/form-data"
-      >
+      <form action="/settings-bg" method="post" enctype="multipart/form-data">
         <label for="file">Select promo image to upload</label>
         <input type="file" name="image" id="file" />
 
@@ -45,7 +41,7 @@
 
     <script>
       // fetch settings.json from the same domain
-      fetch("/public/settings-audio.json")
+      fetch("/public/settings-bg.json")
         .then((response) => response.json())
         .then((data) => {
           // do something with the data
